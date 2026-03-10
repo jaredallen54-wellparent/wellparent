@@ -12,6 +12,15 @@ function getGreeting() {
   return 'Good evening';
 }
 
+// Pick today's workout based on energy level
+function getTodaysWorkout(allWorkouts, energyLevel) {
+  if (energyLevel === 'low') {
+    const low = allWorkouts.find(w => w.energy_tag === 'low');
+    if (low) return low;
+  }
+  return allWorkouts[0];
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const { state } = useApp();
@@ -26,7 +35,18 @@ export default function Home() {
     state.energyDate !== today &&
     state.completedWorkouts.length > 0;
 
-  const featuredWorkout = workouts[0];
+  // Show in-progress (not paused) workout as resume banner too
+  const hasActiveWorkout = state.activeWorkout && !state.activeWorkout.isReset;
+  const hasActiveReset = state.activeWorkout && state.activeWorkout.isReset;
+
+  const featuredWorkout = getTodaysWorkout(workouts, state.energyToday);
+
+  // Check if we should show the "day 7" AI insight stub
+  const firstWorkoutDate = state.completedWorkouts[0]?.completedAt;
+  const daysSinceFirst = firstWorkoutDate
+    ? Math.floor((Date.now() - new Date(firstWorkoutDate + 'T12:00:00').getTime()) / 86400000)
+    : 0;
+  const showAIInsight = daysSinceFirst >= 7 && state.completedWorkouts.length >= 2;
 
   return (
     <div className="min-h-screen bg-cream pb-24">
@@ -41,8 +61,8 @@ export default function Home() {
       </div>
 
       <div className="px-5 flex flex-col gap-4">
-        {/* Resume banner — shown if there's a paused workout */}
-        {state.activeWorkout && state.activeWorkout.pausedAt && !state.activeWorkout.isReset && (
+        {/* Resume banner — paused regular workout */}
+        {hasActiveWorkout && state.activeWorkout.pausedAt && (
           <div className="bg-forest rounded-2xl p-4 flex items-center justify-between">
             <div>
               <p className="font-dm text-cream font-semibold text-sm">Workout paused</p>
@@ -56,7 +76,8 @@ export default function Home() {
             </button>
           </div>
         )}
-        {state.activeWorkout && state.activeWorkout.pausedAt && state.activeWorkout.isReset && (
+        {/* Resume banner — paused Reset */}
+        {hasActiveReset && state.activeWorkout.pausedAt && (
           <div className="rounded-2xl p-4 flex items-center justify-between border-2" style={{ borderColor: '#C4623A', backgroundColor: 'rgba(196,98,58,0.06)' }}>
             <div>
               <p className="font-dm font-semibold text-sm" style={{ color: '#C4623A' }}>Reset paused</p>
@@ -75,6 +96,28 @@ export default function Home() {
         {/* Energy check-in (once per day, after first workout) */}
         {showEnergyCheckIn && <EnergyCheckIn />}
 
+        {/* AI Insight card — shown after 7 days of use */}
+        {showAIInsight && (
+          <button
+            onClick={() => navigate('/ai-insight')}
+            className="w-full bg-forest/5 border border-forest/20 rounded-2xl p-4 text-left active:scale-[0.98] transition-transform"
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-sage/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="#1C4A3E" strokeWidth="1.5"/>
+                  <path d="M8 5v4M8 11v.5" stroke="#1C4A3E" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <p className="font-dm text-mist text-xs uppercase tracking-widest font-semibold mb-1">Your First Insight</p>
+                <p className="font-dm text-forest text-sm font-medium">You tend to move more on medium-energy days.</p>
+                <p className="font-dm text-mist text-xs mt-1">Tap to see your full insight →</p>
+              </div>
+            </div>
+          </button>
+        )}
+
         {/* The Reset card */}
         <div
           className="rounded-2xl p-5 flex flex-col gap-3"
@@ -82,13 +125,13 @@ export default function Home() {
         >
           <div>
             <p className="font-dm text-white/70 text-xs uppercase tracking-widest font-semibold mb-1">
-              Today's Reset
+              The Reset
             </p>
             <h2 className="font-playfair text-white text-2xl font-bold italic">
-              The Reset
+              5 minutes. That's a win.
             </h2>
             <p className="font-dm text-white/80 text-sm mt-1">
-              5 minutes. That's a win.
+              Always free. Always here.
             </p>
           </div>
           <button
@@ -117,10 +160,10 @@ export default function Home() {
             </span>
           </div>
           <button
-            onClick={() => navigate(`/workout/${featuredWorkout.id}`)}
+            onClick={() => navigate(`/workout/${featuredWorkout.id}/preview`)}
             className="w-full bg-forest text-cream font-dm font-semibold text-base rounded-full py-3.5 min-h-[52px] active:scale-95 transition-transform"
           >
-            Start Workout
+            See Workout
           </button>
         </div>
 

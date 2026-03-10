@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useApp, capture } from '../context/AppContext';
-import { workouts } from '../data/workouts';
+import { allWorkouts } from '../data/workouts';
 
 function formatDuration(seconds) {
   if (!seconds && seconds !== 0) return '—';
@@ -17,7 +17,7 @@ export default function WorkoutComplete() {
   const location = useLocation();
   const { state } = useApp();
 
-  const workout = workouts.find(w => w.id === id);
+  const workout = allWorkouts.find(w => w.id === id);
 
   // Get data from navigation state or last completed workout
   const navState = location.state || {};
@@ -30,7 +30,7 @@ export default function WorkoutComplete() {
   const [confetti, setConfetti] = useState([]);
 
   useEffect(() => {
-    capture('workout_completed', { workoutId: id, paused: wasPaused, duration: activeDuration });
+    capture('wellparent_workout_completed', { workout_id: id, paused: wasPaused, actual_duration: activeDuration });
     // Generate confetti dots
     const dots = Array.from({ length: 12 }, (_, i) => ({
       id: i,

@@ -5,6 +5,11 @@ const STORAGE_KEY = 'wellparent_state';
 const defaultState = {
   persona: null,
   weeklyGoal: null,
+  goals: [],
+  equipment: [],
+  postpartumMode: false,
+  injuryFlags: [],
+  oneHandMode: false,
   onboardingComplete: false,
   activeWorkout: null,
   completedWorkouts: [],
@@ -51,6 +56,21 @@ function reducer(state, action) {
 
     case 'SET_WEEKLY_GOAL':
       return { ...state, weeklyGoal: action.payload };
+
+    case 'SET_GOALS':
+      return { ...state, goals: action.payload };
+
+    case 'SET_EQUIPMENT':
+      return { ...state, equipment: action.payload };
+
+    case 'SET_POSTPARTUM_MODE':
+      return { ...state, postpartumMode: action.payload };
+
+    case 'SET_INJURY_FLAGS':
+      return { ...state, injuryFlags: action.payload };
+
+    case 'SET_ONE_HAND_MODE':
+      return { ...state, oneHandMode: action.payload };
 
     case 'COMPLETE_ONBOARDING':
       return { ...state, onboardingComplete: true };

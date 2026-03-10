@@ -11,7 +11,7 @@ export default function EnergyCheckIn() {
 
   const handleSelect = (value) => {
     dispatch({ type: 'SET_ENERGY', payload: value });
-    capture('energy_checked_in', { level: value });
+    capture('wellparent_energy_checkin', { energy_level: value });
   };
 
   return (

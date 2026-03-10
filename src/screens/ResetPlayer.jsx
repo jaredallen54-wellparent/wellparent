@@ -46,9 +46,18 @@ export default function ResetPlayer() {
     if (!startedRef.current) {
       startedRef.current = true;
       if (isResuming) {
-        capture('reset_resumed');
+        capture('wellparent_workout_resumed', {
+          workout_id: theReset.id,
+          exercise_index: savedWorkout?.exerciseIndex,
+          pause_duration_seconds: savedWorkout?.pausedAt
+            ? Math.round((Date.now() - savedWorkout.pausedAt) / 1000)
+            : undefined,
+        });
       } else {
-        capture('reset_started', { persona: state.persona });
+        capture('wellparent_reset_started', {
+          reset_id: theReset.id,
+          energy_level: state.energyToday,
+        });
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -71,7 +80,7 @@ export default function ResetPlayer() {
       type: 'COMPLETE_WORKOUT',
       payload: { workoutId: theReset.id, paused: isResuming, activeDuration, isReset: true }
     });
-    capture('reset_completed', { duration: activeDuration });
+    capture('wellparent_reset_completed', { reset_id: theReset.id, actual_duration: activeDuration });
     navigate('/reset/complete');
   }, [savedWorkout, isResuming, dispatch, navigate]);
 
@@ -111,7 +120,12 @@ export default function ResetPlayer() {
         activeElapsed,
       }
     });
-    capture('reset_paused', { exerciseIndex: exerciseIndexRef.current });
+    capture('wellparent_workout_paused', {
+      workout_id: theReset.id,
+      exercise_index: exerciseIndexRef.current,
+      elapsed_seconds: Math.round(activeElapsed / 1000),
+      timestamp: Date.now(),
+    });
     navigate('/reset/paused');
   };
 

@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const tabs = [
   { path: '/home', label: 'Home', icon: HomeIcon },
   { path: '/workouts', label: 'Workouts', icon: WorkoutIcon },
+  { path: '/mind', label: 'Mind', icon: MindIcon },
   { path: '/progress', label: 'Progress', icon: ProgressIcon },
-  { path: '/settings', label: 'Settings', icon: SettingsIcon },
+  { path: '/settings', label: 'You', icon: YouIcon },
 ];
 
 function HomeIcon({ active }) {
@@ -31,6 +32,20 @@ function WorkoutIcon({ active }) {
   );
 }
 
+function MindIcon({ active }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M11 3C7.13 3 4 6.13 4 10c0 2.46 1.25 4.63 3.15 5.93V18h7.7v-2.07C16.75 14.63 18 12.46 18 10c0-3.87-3.13-7-7-7z"
+        stroke={active ? '#1C4A3E' : '#9DB8AE'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+        fill={active ? '#1C4A3E' : 'none'} fillOpacity={active ? 0.08 : 0}
+      />
+      <path d="M8 18h6M9 21h4"
+        stroke={active ? '#1C4A3E' : '#9DB8AE'} strokeWidth="1.8" strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function ProgressIcon({ active }) {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -41,11 +56,13 @@ function ProgressIcon({ active }) {
   );
 }
 
-function SettingsIcon({ active }) {
+function YouIcon({ active }) {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <circle cx="11" cy="11" r="3" stroke={active ? '#1C4A3E' : '#9DB8AE'} strokeWidth="1.8"/>
-      <path d="M11 2V4M11 18V20M2 11H4M18 11H20M4.22 4.22L5.64 5.64M16.36 16.36L17.78 17.78M4.22 17.78L5.64 16.36M16.36 5.64L17.78 4.22"
+      <circle cx="11" cy="8" r="3.5" stroke={active ? '#1C4A3E' : '#9DB8AE'} strokeWidth="1.8"
+        fill={active ? '#1C4A3E' : 'none'} fillOpacity={active ? 0.1 : 0}
+      />
+      <path d="M4 19c0-3.87 3.13-7 7-7s7 3.13 7 7"
         stroke={active ? '#1C4A3E' : '#9DB8AE'} strokeWidth="1.8" strokeLinecap="round"
       />
     </svg>
@@ -59,7 +76,7 @@ export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-cream border-t border-mist/20 flex z-40">
       {tabs.map(tab => {
-        const active = location.pathname === tab.path;
+        const active = location.pathname === tab.path || location.pathname.startsWith(tab.path + '/');
         const Icon = tab.icon;
         return (
           <button

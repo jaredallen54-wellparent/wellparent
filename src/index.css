@@ -97,3 +97,7 @@ button {
   from { stroke-dashoffset: 0; }
   to   { stroke-dashoffset: var(--ring-circumference); }
 }
+
+/* Hide scrollbar but keep scrollability (used for filter chip rows) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

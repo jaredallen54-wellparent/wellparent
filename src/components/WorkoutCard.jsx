@@ -5,7 +5,7 @@ export default function WorkoutCard({ workout }) {
 
   return (
     <button
-      onClick={() => navigate(`/workout/${workout.id}`)}
+      onClick={() => navigate(`/workout/${workout.id}/preview`)}
       className="w-full bg-white/70 rounded-2xl p-5 border border-mist/20 text-left active:scale-[0.98] transition-transform"
     >
       <div className="flex items-start justify-between gap-3">
@@ -18,17 +18,19 @@ export default function WorkoutCard({ workout }) {
             <span className="bg-forest/10 text-forest font-dm text-xs font-medium px-3 py-1 rounded-full">
               {workout.duration} min
             </span>
-            <span className="bg-mist/20 text-mist font-dm text-xs font-medium px-3 py-1 rounded-full">
-              {workout.level}
-            </span>
-            {workout.postpartumSafe && (
+            {workout.level && (
+              <span className="bg-mist/20 text-mist font-dm text-xs font-medium px-3 py-1 rounded-full">
+                {workout.level}
+              </span>
+            )}
+            {(workout.postpartum_safe || workout.postpartumSafe) && (
               <span className="bg-sage/20 text-sage font-dm text-xs font-medium px-3 py-1 rounded-full">
                 Postpartum-safe
               </span>
             )}
-            {workout.equipment && workout.equipment !== 'None' && (
+            {workout.equipment?.length > 0 && (
               <span className="bg-mist/10 text-mist font-dm text-xs px-3 py-1 rounded-full">
-                {workout.equipment}
+                {workout.equipment.join(', ')}
               </span>
             )}
           </div>
