@@ -12,7 +12,7 @@ export default function PersonaSelect() {
     if (!selected) return;
     dispatch({ type: 'SET_PERSONA', payload: selected });
     capture('persona_selected', { persona: selected });
-    navigate('/onboarding/commitment');
+    navigate('/onboarding/goals');
   };
 
   return (
@@ -23,7 +23,7 @@ export default function PersonaSelect() {
       </div>
 
       <div className="flex-1 flex flex-col px-5 pt-8 pb-6">
-        <p className="font-dm text-mist text-xs uppercase tracking-widest mb-6">Step 1 of 2</p>
+        <p className="font-dm text-mist text-xs uppercase tracking-widest mb-6">Step 1 of 4</p>
 
         <h1 className="font-playfair text-forest text-3xl font-bold leading-tight mb-3">
           Who are you showing up for?

@@ -11,26 +11,25 @@ export default function CommitmentSelect() {
   const handleGo = () => {
     if (!selected) return;
     dispatch({ type: 'SET_WEEKLY_GOAL', payload: selected });
-    dispatch({ type: 'COMPLETE_ONBOARDING' });
     capture('commitment_set', { goal: selected });
-    navigate('/home');
+    navigate('/onboarding/welcome');
   };
 
   return (
     <div className="min-h-screen bg-cream flex flex-col">
       {/* Progress bar */}
       <div className="w-full h-1 bg-mist/30">
-        <div className="h-full bg-forest transition-all duration-500 rounded-full" style={{ width: '75%' }} />
+        <div className="h-full bg-forest transition-all duration-500 rounded-full" style={{ width: '100%' }} />
       </div>
 
       <div className="flex-1 flex flex-col px-5 pt-8 pb-6">
-        <p className="font-dm text-mist text-xs uppercase tracking-widest mb-6">Step 2 of 2</p>
+        <p className="font-dm text-mist text-xs uppercase tracking-widest mb-6">Step 4 of 4</p>
 
         <h1 className="font-playfair text-forest text-3xl font-bold leading-tight mb-3">
-          What feels doable this week?
+          How many times a week feels realistic right now?
         </h1>
         <p className="font-dm text-mist text-base leading-relaxed mb-8">
-          Pick what fits your life right now. You can always change it.
+          There's no wrong answer. This is your plan, not a target to judge yourself against.
         </p>
 
         {/* Commitment cards */}
@@ -78,7 +77,7 @@ export default function CommitmentSelect() {
               : 'bg-mist/30 text-mist cursor-not-allowed'
           }`}
         >
-          Let's go
+          This is my plan
         </button>
       </div>
     </div>

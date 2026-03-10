@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApp, capture } from '../context/AppContext';
-import { workouts } from '../data/workouts';
+import { allWorkouts } from '../data/workouts';
 
 const PAUSE_RING_RADIUS = 32;
 const PAUSE_RING_CIRCUMFERENCE = 2 * Math.PI * PAUSE_RING_RADIUS;
@@ -14,7 +14,7 @@ export default function WorkoutPlayer() {
   const navigate = useNavigate();
   const { state, dispatch } = useApp();
 
-  const workout = workouts.find(w => w.id === id);
+  const workout = allWorkouts.find(w => w.id === id);
   const savedWorkout = state.activeWorkout?.workoutId === id ? state.activeWorkout : null;
   const isResuming = !!(savedWorkout?.pausedAt);
 
@@ -51,9 +51,22 @@ export default function WorkoutPlayer() {
     if (!startedRef.current) {
       startedRef.current = true;
       if (isResuming) {
-        capture('workout_resumed', { workoutId: id });
+        const pauseDuration = savedWorkout?.pausedAt
+          ? Math.round((Date.now() - savedWorkout.pausedAt) / 1000)
+          : undefined;
+        capture('wellparent_workout_resumed', {
+          workout_id: id,
+          exercise_index: savedWorkout?.exerciseIndex,
+          pause_duration_seconds: pauseDuration, // internal only — never displayed
+        });
       } else {
-        capture('workout_started', { workoutId: id, persona: state.persona });
+        capture('wellparent_workout_started', {
+          workout_id: id,
+          workout_type: workout?.isReset ? 'reset' : 'workout',
+          duration_target: workout?.duration,
+          persona: state.persona,
+          energy_level: state.energyToday,
+        });
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -76,7 +89,12 @@ export default function WorkoutPlayer() {
       type: 'COMPLETE_WORKOUT',
       payload: { workoutId: id, paused: isResuming, activeDuration }
     });
-    capture('workout_completed', { workoutId: id, paused: isResuming, duration: activeDuration });
+    capture('wellparent_workout_completed', {
+      workout_id: id,
+      actual_duration: activeDuration,
+      pause_count: isResuming ? 1 : 0,
+      persona: state.persona,
+    });
     navigate(`/workout/${id}/complete`, { state: { activeDuration, paused: isResuming } });
   }, [id, isResuming, savedWorkout, dispatch, navigate]);
 
@@ -129,7 +147,13 @@ export default function WorkoutPlayer() {
         activeElapsed,
       }
     });
-    capture('workout_paused', { workoutId: id, exerciseIndex: exerciseIndexRef.current });
+    capture('wellparent_workout_paused', {
+      workout_id: id,
+      exercise_index: exerciseIndexRef.current,
+      set_number: setIndexRef.current,
+      elapsed_seconds: Math.round(activeElapsed / 1000),
+      timestamp: Date.now(),
+    });
     navigate(`/workout/${id}/paused`);
   };
 
@@ -151,7 +175,7 @@ export default function WorkoutPlayer() {
         <button
           onClick={() => {
             dispatch({ type: 'ABANDON_WORKOUT' });
-            capture('workout_abandoned', { workoutId: id });
+            capture('wellparent_workout_abandoned', { workout_id: id, pct_complete: Math.round(exerciseIndex / (workout?.exercises?.length || 1) * 100), last_exercise_index: exerciseIndex });
             navigate('/workouts');
           }}
           className="text-mist font-dm text-sm flex items-center gap-1 min-h-[44px] px-2"
@@ -183,9 +207,18 @@ export default function WorkoutPlayer() {
         <h1 className="font-playfair text-cream text-4xl font-bold italic leading-tight mb-4">
           {exercise.name}
         </h1>
-        <p className="text-mist font-dm text-base leading-relaxed max-w-xs mb-10">
+        <p className="text-mist font-dm text-base leading-relaxed max-w-xs mb-4">
           {exercise.description}
         </p>
+
+        {/* Postpartum caution pill — shown when postpartumMode is on and exercise is flagged */}
+        {state.postpartumMode && exercise.postpartum_caution && (
+          <div className="bg-amber-500/15 border border-amber-400/30 rounded-full px-4 py-2 mb-6 max-w-xs">
+            <p className="font-dm text-amber-200 text-xs text-center leading-snug">
+              Modified for postpartum recovery — check with your care provider.
+            </p>
+          </div>
+        )}
 
         {/* Timed: countdown ring (key resets CSS animation cleanly on exercise change) */}
         {isTimed && (
