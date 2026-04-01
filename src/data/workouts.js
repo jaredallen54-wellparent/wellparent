@@ -140,12 +140,14 @@ export const workouts = [
     ]
   },
   {
-    id: "w-006",
+    id: "w-013",
     name: "Lower Back & Hip",
     duration: 30,
     tag: "For the tight spots",
     level: "Moderate",
-    equipment: "Bands, bench or couch",
+    equipment: ["bands", "bench"],
+    postpartum_safe: false,
+    focus: "Mobility",
     exercises: [
       // Phase 1 — Lengthen
       { id: "lb1",  name: "90/90 Leans",              sets: 2, reps: 10, description: "Sit in 90/90 hip position. Lean toward your front shin, hold 2s, return. 10 per side." },
