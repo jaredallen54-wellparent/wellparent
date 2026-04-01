@@ -140,6 +140,38 @@ export const workouts = [
     ]
   },
   {
+    id: "w-006",
+    name: "Lower Back & Hip",
+    duration: 30,
+    tag: "For the tight spots",
+    level: "Moderate",
+    equipment: "Bands, bench or couch",
+    exercises: [
+      // Phase 1 — Lengthen
+      { id: "lb1",  name: "90/90 Leans",              sets: 2, reps: 10, description: "Sit in 90/90 hip position. Lean toward your front shin, hold 2s, return. 10 per side." },
+      { id: "lb2",  name: "Couch Stretch",             sets: 2, reps: 1,  description: "Back foot on couch or bench. Drop into a deep lunge. Hold 30–45s per side." },
+      { id: "lb3",  name: "Adductor Rock Backs",       sets: 2, reps: 10, description: "Split stance, weight shifted to back foot. Rock hips back slowly. 10 per side." },
+      { id: "lb4",  name: "Cat-Cow Spinal Waves",      sets: 2, reps: 6,  description: "On hands and knees. Arch and round the spine slowly — feel each segment." },
+      { id: "lb5",  name: "World's Greatest Stretch",  sets: 1, reps: 3,  description: "Deep lunge with thoracic rotation. Open the whole chain. 3 per side." },
+      // Phase 2 — Isolate
+      { id: "lb6",  name: "Abductor Leg Lift",         sets: 2, reps: 12, description: "Side-lying, hips stacked. Raise top leg with control. 12–15 per side." },
+      { id: "lb7",  name: "Side Plank Clamshell",      sets: 2, reps: 8,  description: "Side plank with knees bent. Open top knee, then raise hips. 8–10 per side." },
+      { id: "lb8",  name: "Banded Hip March",          sets: 2, reps: 10, description: "Band at ankles. Drive one knee up to hip height. Tall posture. 10–12 per leg." },
+      { id: "lb9",  name: "Bird Dogs",                 sets: 2, reps: 10, description: "Opposite arm and leg, 2s hold at top. Back flat, core braced. 10 alternating." },
+      { id: "lb10", name: "Glute Bridge March",        sets: 2, reps: 8,  description: "Hips up in bridge. Alternate marching knees toward chest. 8–10 per side." },
+      // Phase 3 — Strengthen
+      { id: "lb11", name: "Bulgarian Split Squat",     sets: 3, reps: 8,  description: "Back foot elevated. Drop straight down, drive through front heel. 8–10 per leg." },
+      { id: "lb12", name: "Cossack Squat",             sets: 3, reps: 6,  description: "Wide stance. Squat deep to one side, straighten the other leg. 6–8 per side." },
+      { id: "lb13", name: "Curtsy Lunge",              sets: 2, reps: 8,  description: "Step back and across. Front knee tracks over toes. 8–10 per side." },
+      { id: "lb14", name: "Dead Bug",                  sets: 2, reps: 10, description: "On your back, arms up. Lower opposite arm and leg slowly. Weighted or banded." },
+      { id: "lb15", name: "RDL to Row",                sets: 2, reps: 8,  description: "Hinge into a Romanian deadlift, row at the bottom, return tall. 8–10 reps." },
+      // Optional Finisher
+      { id: "lb16", name: "Superman Hold",             sets: 3, reps: 10, description: "Face down. Lift arms and legs together. Hold 20s each, or pulse for 10 reps." },
+      { id: "lb17", name: "Side Plank Reach-Through",  sets: 2, reps: 6,  description: "Side plank. Thread top arm under your body and open back up. 6–8 per side." },
+      { id: "lb18", name: "Pallof Press",              sets: 2, reps: 10, description: "Band anchored at your side. Press straight out, hold 2s, return. 10 per side." },
+    ]
+  },
+  {
     id: "w-005",
     name: "Postpartum Strong",
     duration: 15,
