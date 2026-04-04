@@ -174,6 +174,40 @@ export default function Home() {
         >
           Browse all workouts →
         </button>
+
+        {/* Fuel / Nutrition entry */}
+        <button
+          onClick={() => navigate('/nutrition')}
+          className="w-full bg-white/70 rounded-2xl p-5 border border-mist/20 text-left active:scale-[0.98] transition-transform"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-sage/10 flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl">🥗</span>
+            </div>
+            <div className="flex-1">
+              <p className="font-dm text-mist text-xs uppercase tracking-widest font-semibold mb-0.5">Fuel</p>
+              <h3 className="font-playfair text-forest text-lg font-bold">Quick meals & energy tips</h3>
+              <p className="font-dm text-mist text-sm">Simple food for parent life →</p>
+            </div>
+          </div>
+        </button>
+
+        {/* Circles entry */}
+        <button
+          onClick={() => navigate('/community')}
+          className="w-full bg-white/70 rounded-2xl p-5 border border-mist/20 text-left active:scale-[0.98] transition-transform"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-forest/5 flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl">🌿</span>
+            </div>
+            <div className="flex-1">
+              <p className="font-dm text-mist text-xs uppercase tracking-widest font-semibold mb-0.5">Circles</p>
+              <h3 className="font-playfair text-forest text-lg font-bold">Find your people</h3>
+              <p className="font-dm text-mist text-sm">Real parents. No performance. →</p>
+            </div>
+          </div>
+        </button>
       </div>
 
       <BottomNav />

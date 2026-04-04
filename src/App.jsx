@@ -31,6 +31,17 @@ import ResetPauseScreen from './screens/ResetPauseScreen';
 import BreathingPlayer from './screens/BreathingPlayer';
 import JournalPrompt from './screens/JournalPrompt';
 
+// Circles flows
+import CircleDetail from './screens/CircleDetail';
+import FirstPost from './screens/FirstPost';
+import PostDetail from './screens/PostDetail';
+
+// Nutrition flows
+import NutritionHub from './screens/NutritionHub';
+import QuickMeal from './screens/QuickMeal';
+import HydrationPrompt from './screens/HydrationPrompt';
+import EnergyTip from './screens/EnergyTip';
+
 // Profile / subscription
 import Paywall from './screens/Paywall';
 
@@ -100,6 +111,17 @@ function AppRoutes() {
       {/* Mind flows */}
       <Route path="/mind/breathing/:id" element={<GuardedRoute><BreathingPlayer /></GuardedRoute>} />
       <Route path="/mind/journal" element={<GuardedRoute><JournalPrompt /></GuardedRoute>} />
+
+      {/* Circles flows */}
+      <Route path="/circles/:id" element={<GuardedRoute><CircleDetail /></GuardedRoute>} />
+      <Route path="/circles/:id/first-post" element={<GuardedRoute><FirstPost /></GuardedRoute>} />
+      <Route path="/circles/:id/post/:postId" element={<GuardedRoute><PostDetail /></GuardedRoute>} />
+
+      {/* Nutrition flows */}
+      <Route path="/nutrition" element={<GuardedRoute><NutritionHub /></GuardedRoute>} />
+      <Route path="/nutrition/meal/:id" element={<GuardedRoute><QuickMeal /></GuardedRoute>} />
+      <Route path="/nutrition/hydration" element={<GuardedRoute><HydrationPrompt /></GuardedRoute>} />
+      <Route path="/nutrition/energy-tip/:id" element={<GuardedRoute><EnergyTip /></GuardedRoute>} />
 
       {/* Subscription */}
       <Route path="/subscribe" element={<GuardedRoute><Paywall /></GuardedRoute>} />
